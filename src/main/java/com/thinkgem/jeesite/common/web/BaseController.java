@@ -31,7 +31,7 @@ import com.thinkgem.jeesite.common.mapper.JsonMapper;
 import com.thinkgem.jeesite.common.utils.DateUtils;
 
 /**
- * 控制器支持类
+ * 控制器支持类，Controller控制器基类
  * @author ThinkGem
  * @version 2013-3-23
  */
@@ -71,6 +71,7 @@ public abstract class BaseController {
 	 * @param object 验证的实体对象
 	 * @param groups 验证组
 	 * @return 验证成功：返回true；严重失败：将错误信息添加到 message 中
+	 * 验证完后，消息添加到model，在本页面中显示
 	 */
 	protected boolean beanValidator(Model model, Object object, Class<?>... groups) {
 		try{
@@ -89,6 +90,7 @@ public abstract class BaseController {
 	 * @param object 验证的实体对象
 	 * @param groups 验证组
 	 * @return 验证成功：返回true；严重失败：将错误信息添加到 flash message 中
+	 * 验证后消息添加到重定向属性中，在重定向页面中显示
 	 */
 	protected boolean beanValidator(RedirectAttributes redirectAttributes, Object object, Class<?>... groups) {
 		try{
@@ -107,13 +109,14 @@ public abstract class BaseController {
 	 * @param object 验证的实体对象
 	 * @param groups 验证组，不传入此参数时，同@Valid注解验证
 	 * @return 验证成功：继续执行；验证失败：抛出异常跳转400页面。
+	 * 直接验证，验证失败，抛出异常
 	 */
 	protected void beanValidator(Object object, Class<?>... groups) {
 		BeanValidators.validateWithException(validator, object, groups);
 	}
 	
 	/**
-	 * 添加Model消息
+	 * 添加Model消息，错误消息添加到model属性
 	 * @param message
 	 */
 	protected void addMessage(Model model, String... messages) {
@@ -125,7 +128,7 @@ public abstract class BaseController {
 	}
 	
 	/**
-	 * 添加Flash消息
+	 * 添加Flash消息，错误消息添加到重定向属性
 	 * @param message
 	 */
 	protected void addMessage(RedirectAttributes redirectAttributes, String... messages) {
@@ -137,7 +140,7 @@ public abstract class BaseController {
 	}
 	
 	/**
-	 * 客户端返回JSON字符串
+	 * 客户端返回JSON字符串，客户端返回json
 	 * @param response
 	 * @param object
 	 * @return
@@ -165,7 +168,7 @@ public abstract class BaseController {
 	}
 
 	/**
-	 * 参数绑定异常
+	 * 参数绑定异常，返回error/400页面
 	 */
 	@ExceptionHandler({BindException.class, ConstraintViolationException.class, ValidationException.class})
     public String bindException() {  
@@ -173,7 +176,7 @@ public abstract class BaseController {
     }
 	
 	/**
-	 * 授权登录异常
+	 * 授权登录异常，返回403页面
 	 */
 	@ExceptionHandler({AuthenticationException.class})
     public String authenticationException() {  

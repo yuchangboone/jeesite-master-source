@@ -24,7 +24,7 @@ public class CacheUtils {
 	private static final String SYS_CACHE = "sysCache";
 
 	/**
-	 * 获取SYS_CACHE缓存
+	 * 获取系统缓存中指定key的value
 	 * @param key
 	 * @return
 	 */
@@ -62,7 +62,7 @@ public class CacheUtils {
 	}
 	
 	/**
-	 * 获取缓存
+	 * 获取缓存，获取指定名称缓存，指定key的value
 	 * @param cacheName
 	 * @param key
 	 * @return

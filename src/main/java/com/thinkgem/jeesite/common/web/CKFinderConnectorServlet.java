@@ -18,6 +18,7 @@ import com.ckfinder.connector.ConnectorServlet;
 
 /**
  * CKFinderConnectorServlet
+ * CKFinder文件管理器
  * @author ThinkGem
  * @version 2014-06-25
  */

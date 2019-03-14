@@ -6,7 +6,7 @@
 
 	<display-name>JeeSite</display-name>
 
-	<!-- Context ConfigLocation -->
+	<!-- spring根上下文配置 -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath*:/spring-context*.xml</param-value>
@@ -17,6 +17,7 @@
 	<listener>
         <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>  
 	</listener>
+	<!--字符编码过滤器-->
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -34,7 +35,7 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	
-	<!-- Apache Shiro -->
+	<!-- shiro权限过滤器 -->
 	<filter>
 		<filter-name>shiroFilter</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
@@ -48,7 +49,7 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
-	<!-- PageCache, cache .html suffix.
+	<!-- PageCache, cache .html suffix，页面缓存过滤器，缓存指定后缀url.
 	<filter>
 		<filter-name>PageCacheFilter</filter-name>
 		<filter-class>com.thinkgem.jeesite.common.filter.PageCachingFilter</filter-class>
@@ -105,7 +106,7 @@
 		<url-pattern>/act/service/*</url-pattern>
 	</filter-mapping>
 
-	<!-- DruidStatView -->
+	<!-- DruidStatView，druid德鲁伊数据库连接池 -->
 	<servlet>
 		<servlet-name>DruidStatView</servlet-name>
 		<servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
@@ -158,7 +159,7 @@
 		<url-pattern>/static/ckfinder/core/connector/java/connector.java</url-pattern>
 	</filter-mapping>
 
-	<!-- Userfiles download -->
+	<!-- Userfiles download用户文件下载servlet -->
 	<servlet>
 	  	<servlet-name>UserfilesDownloadServlet</servlet-name>
 	  	<servlet-class>com.thinkgem.jeesite.common.servlet.UserfilesDownloadServlet</servlet-class>
@@ -168,7 +169,7 @@
 	  	<url-pattern>/userfiles/*</url-pattern>
 	</servlet-mapping>
 	
-	<!-- Validate code -->
+	<!-- Validate code验证码Servlet -->
 	<servlet>
 		<servlet-name>ValidateCodeServlet</servlet-name>
 		<servlet-class>com.thinkgem.jeesite.common.servlet.ValidateCodeServlet</servlet-class>

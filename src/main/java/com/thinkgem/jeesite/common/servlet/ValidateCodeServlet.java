@@ -24,6 +24,7 @@ import org.apache.commons.lang3.StringUtils;
  * 生成随机验证码
  * @author ThinkGem
  * @version 2014-7-27
+ * 验证码Servlet
  */
 @SuppressWarnings("serial")
 public class ValidateCodeServlet extends HttpServlet {

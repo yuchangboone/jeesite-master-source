@@ -19,7 +19,7 @@ import org.springframework.web.util.UriUtils;
 import com.thinkgem.jeesite.common.config.Global;
 
 /**
- * 查看CK上传的图片
+ * 查看CK上传的图片，文件下载Servlet
  * @author ThinkGem
  * @version 2014-06-25
  */
@@ -28,9 +28,12 @@ public class UserfilesDownloadServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
+	/* 文件输出流 */
 	public void fileOutputStream(HttpServletRequest req, HttpServletResponse resp) 
 			throws ServletException, IOException {
+		/* 获取请求路径为文件路径 */
 		String filepath = req.getRequestURI();
+		/* 获取基础路径下标 */
 		int index = filepath.indexOf(Global.USERFILES_BASE_URL);
 		if(index >= 0) {
 			filepath = filepath.substring(index + Global.USERFILES_BASE_URL.length());
