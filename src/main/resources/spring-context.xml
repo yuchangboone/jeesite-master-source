@@ -25,13 +25,17 @@
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
 	
- 	<!-- MyBatis begin -->
+ 	<!-- MyBatis SqlSessionFactory配置-->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
+		<!--类型别名所在包-->
         <property name="typeAliasesPackage" value="com.thinkgem.jeesite"/>
+		<!--类型别名父类-->
         <property name="typeAliasesSuperType" value="com.thinkgem.jeesite.common.persistence.BaseEntity"/>
+		<!--mapper文件位置-->
         <property name="mapperLocations" value="classpath:/mappings/**/*.xml"/>
-		<property name="configLocation" value="classpath:/mybatis-config.xml"></property>
+		<!--mybatis配置文件-->
+		<property name="configLocation" value="classpath:/mybatis-config.xml"/>
     </bean>
     
     <!-- 扫描basePackage下所有以@MyBatisDao注解的接口 -->
@@ -41,7 +45,7 @@
         <property name="annotationClass" value="com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao"/>
     </bean>
     
-    <!-- 定义事务 -->
+    <!-- 定义事务管理器 -->
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
@@ -53,13 +57,14 @@
 	<!-- 配置 JSR303 Bean Validator 定义 -->
 	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
 
-	<!-- 缓存配置 -->
+	<!-- 缓存配置，使用ehcache缓存 -->
 	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
 		<property name="configLocation" value="classpath:${ehcache.configFile}" />
 	</bean>
 	
-	<!-- 计划任务配置，用 @Service @Lazy(false)标注类，用@Scheduled(cron = "0 0 2 * * ?")标注方法 -->
-    <task:executor id="executor" pool-size="10"/> <task:scheduler id="scheduler" pool-size="10"/>
+	<!-- 任务执行器，任务调度器，注解配置 -->
+    <task:executor id="executor" pool-size="10"/>
+	<task:scheduler id="scheduler" pool-size="10"/>
     <task:annotation-driven scheduler="scheduler" executor="executor" proxy-target-class="true"/>
     
 	<!-- 数据源配置, 使用 BoneCP 数据库连接池 -->
@@ -72,7 +77,7 @@
 		<property name="username" value="${jdbc.username}" />
 		<property name="password" value="${jdbc.password}" />
 		
-		<!-- 配置初始化大小、最小、最大 -->
+		<!-- 连接池初始化大小、最小、最大 -->
 		<property name="initialSize" value="${jdbc.pool.init}" />
 		<property name="minIdle" value="${jdbc.pool.minIdle}" /> 
 		<property name="maxActive" value="${jdbc.pool.maxActive}" />
@@ -85,7 +90,8 @@
 		
 		<!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
 		<property name="minEvictableIdleTimeMillis" value="300000" />
-		
+
+		<!--测试sql语句-->
 		<property name="validationQuery" value="${jdbc.testSql}" />
 		<property name="testWhileIdle" value="true" />
 		<property name="testOnBorrow" value="false" />
