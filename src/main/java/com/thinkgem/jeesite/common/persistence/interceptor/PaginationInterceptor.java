@@ -26,8 +26,20 @@ import java.util.Properties;
  * @author poplar.yfyang / thinkgem
  * @version 2013-8-28
  */
-@Intercepts({@Signature(type = Executor.class, method = "query",
-        args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class})})
+/* mybatis拦截器 */
+@Intercepts({
+        /* 拦截指定类、指定签名的方法 */
+        @Signature(
+                type = Executor.class,
+                method = "query",
+                args = {
+                        MappedStatement.class,
+                        Object.class,
+                        RowBounds.class,
+                        ResultHandler.class
+                }
+        )
+})
 public class PaginationInterceptor extends BaseInterceptor {
 
     private static final long serialVersionUID = 1L;
