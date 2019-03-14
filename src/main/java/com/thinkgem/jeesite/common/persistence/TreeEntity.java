@@ -12,7 +12,7 @@ import com.thinkgem.jeesite.common.utils.Reflections;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 
 /**
- * 数据Entity类
+ * 数据Entity类，树形实体
  * @author ThinkGem
  * @version 2014-05-16
  */
@@ -20,6 +20,7 @@ public abstract class TreeEntity<T> extends DataEntity<T> {
 
 	private static final long serialVersionUID = 1L;
 
+	/* 父实体 */
 	protected T parent;	// 父级编号
 	protected String parentIds; // 所有父级编号
 	protected String name; 	// 机构名称
