@@ -7,7 +7,7 @@ import com.thinkgem.jeesite.common.persistence.dialect.Dialect;
 
 /**
  * Mysql方言的实现
- *
+ * 只实现分页部分
  * @author poplar.yfyang
  * @version 1.0 2010-10-10 下午12:31
  * @since JDK 1.5
@@ -15,12 +15,14 @@ import com.thinkgem.jeesite.common.persistence.dialect.Dialect;
 public class MySQLDialect implements Dialect {
 
 
+    /* 获取分页字符串 */
     @Override
     public String getLimitString(String sql, int offset, int limit) {
         return getLimitString(sql, offset, Integer.toString(offset),
                 Integer.toString(limit));
     }
 
+    /* 知否支持分页 */
     public boolean supportsLimit() {
         return true;
     }
@@ -42,6 +44,7 @@ public class MySQLDialect implements Dialect {
     public String getLimitString(String sql, int offset, String offsetPlaceholder, String limitPlaceholder) {
         StringBuilder stringBuilder = new StringBuilder(sql);
         stringBuilder.append(" limit ");
+        /* 偏移大于0，先拼接偏移，后拼接limit */
         if (offset > 0) {
             stringBuilder.append(offsetPlaceholder).append(",").append(limitPlaceholder);
         } else {

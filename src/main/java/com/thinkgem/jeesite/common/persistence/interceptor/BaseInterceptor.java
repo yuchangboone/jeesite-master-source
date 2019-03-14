@@ -49,7 +49,7 @@ public abstract class BaseInterceptor implements Interceptor, Serializable {
 //    protected String _SQL_PATTERN = "";
 
     /**
-     * 对参数进行转换和检查
+     * 对参数进行转换和检查，从参数中获取分页Page对象
      * @param parameterObject 参数对象
      * @param page            分页对象
      * @return 分页对象
@@ -58,9 +58,12 @@ public abstract class BaseInterceptor implements Interceptor, Serializable {
     @SuppressWarnings("unchecked")
 	protected static Page<Object> convertParameter(Object parameterObject, Page<Object> page) {
     	try{
+    	    /* 如果参数本身是Page，直接返回 */
             if (parameterObject instanceof Page) {
                 return (Page<Object>) parameterObject;
-            } else {
+            }
+            /* 获取参数的Page属性对象，对一般实体类 */
+            else {
                 return (Page<Object>)Reflections.getFieldValue(parameterObject, PAGE);
             }
     	}catch (Exception e) {

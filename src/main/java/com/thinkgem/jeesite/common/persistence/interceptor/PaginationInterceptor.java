@@ -47,6 +47,7 @@ public class PaginationInterceptor extends BaseInterceptor {
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
 
+        /* 获取拦截方法的第一个参数 */
         final MappedStatement mappedStatement = (MappedStatement) invocation.getArgs()[0];
         
 //        //拦截需要分页的SQL
