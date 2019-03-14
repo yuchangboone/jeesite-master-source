@@ -25,6 +25,7 @@ import com.thinkgem.jeesite.common.web.Servlets;
  * 自定义授权缓存管理类
  * @author ThinkGem
  * @version 2014-7-20
+ * redis缓存管理器
  */
 public class JedisCacheManager implements CacheManager {
 

@@ -37,6 +37,7 @@ public abstract class BaseService {
 	 */
 	public static String dataScopeFilter(User user, String officeAlias, String userAlias) {
 
+		/* 过滤数据范围的sql */
 		StringBuilder sqlString = new StringBuilder();
 		
 		// 进行权限过滤，多个角色权限范围之间为或者关系。
@@ -44,29 +45,39 @@ public abstract class BaseService {
 		
 		// 超级管理员，跳过权限过滤
 		if (!user.isAdmin()){
+
+			/* 是否为所有数据 */
 			boolean isDataScopeAll = false;
+			/* 遍历用户角色 */
 			for (Role r : user.getRoleList()){
+				/* 遍历机构别名 */
 				for (String oa : StringUtils.split(officeAlias, ",")){
 					if (!dataScope.contains(r.getDataScope()) && StringUtils.isNotBlank(oa)){
+						/* 如果角色的数据范围为所有 */
 						if (Role.DATA_SCOPE_ALL.equals(r.getDataScope())){
 							isDataScopeAll = true;
 						}
+						/* 角色数据范围为所在公司及以下输数据 */
 						else if (Role.DATA_SCOPE_COMPANY_AND_CHILD.equals(r.getDataScope())){
 							sqlString.append(" OR " + oa + ".id = '" + user.getCompany().getId() + "'");
 							sqlString.append(" OR " + oa + ".parent_ids LIKE '" + user.getCompany().getParentIds() + user.getCompany().getId() + ",%'");
 						}
+						/* 所在公司数据 */
 						else if (Role.DATA_SCOPE_COMPANY.equals(r.getDataScope())){
 							sqlString.append(" OR " + oa + ".id = '" + user.getCompany().getId() + "'");
 							// 包括本公司下的部门 （type=1:公司；type=2：部门）
 							sqlString.append(" OR (" + oa + ".parent_id = '" + user.getCompany().getId() + "' AND " + oa + ".type = '2')");
 						}
+						/* 所在部门及以下数据 */
 						else if (Role.DATA_SCOPE_OFFICE_AND_CHILD.equals(r.getDataScope())){
 							sqlString.append(" OR " + oa + ".id = '" + user.getOffice().getId() + "'");
 							sqlString.append(" OR " + oa + ".parent_ids LIKE '" + user.getOffice().getParentIds() + user.getOffice().getId() + ",%'");
 						}
+						/* 所在部门数据 */
 						else if (Role.DATA_SCOPE_OFFICE.equals(r.getDataScope())){
 							sqlString.append(" OR " + oa + ".id = '" + user.getOffice().getId() + "'");
 						}
+						/* 仅用户自身数据 */
 						else if (Role.DATA_SCOPE_CUSTOM.equals(r.getDataScope())){
 //							String officeIds =  StringUtils.join(r.getOfficeIdList(), "','");
 //							if (StringUtils.isNotEmpty(officeIds)){
