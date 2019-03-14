@@ -21,7 +21,7 @@ import com.thinkgem.jeesite.common.utils.TimeUtils;
 import com.thinkgem.jeesite.modules.act.utils.Variable;
 
 /**
- * 工作流Entity
+ * 工作流Entity，用于存储当前执行状态
  * @author ThinkGem
  * @version 2013-11-03
  */

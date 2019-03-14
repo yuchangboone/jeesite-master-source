@@ -20,7 +20,7 @@ import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
 /**
- * Entity支持类
+ * Entity支持类，基础实体类
  * @author ThinkGem
  * @version 2014-05-16
  */
@@ -30,7 +30,7 @@ public abstract class BaseEntity<T> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 实体编号（唯一标识）
+	 * 实体编号（唯一标识），自增整数
 	 */
 	protected String id;
 	
@@ -76,6 +76,7 @@ public abstract class BaseEntity<T> implements Serializable {
 	@JsonIgnore
 	@XmlTransient
 	public User getCurrentUser() {
+		/* 当前用户为空，可以根据shiro工具类获取，保证每个实体上都能获取当前用户 */
 		if(currentUser == null){
 			currentUser = UserUtils.getUser();
 		}

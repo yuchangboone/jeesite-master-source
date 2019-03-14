@@ -15,7 +15,7 @@ import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
 /**
- * 数据Entity类
+ * 数据Entity类，业务实体应该继承次此类，包含了业务实体的通用字段
  * @author ThinkGem
  * @version 2014-05-16
  */
@@ -44,10 +44,12 @@ public abstract class DataEntity<T> extends BaseEntity<T> {
 	 */
 	@Override
 	public void preInsert(){
+		/* 这步有问题，不是新记录，设置id为uuid？ */
 		// 不限制ID为UUID，调用setIsNewRecord()使用自定义ID
 		if (!this.isNewRecord){
 			setId(IdGen.uuid());
 		}
+		/* 当前用户为创建者、更新者 */
 		User user = UserUtils.getUser();
 		if (StringUtils.isNotBlank(user.getId())){
 			this.updateBy = user;
@@ -62,6 +64,7 @@ public abstract class DataEntity<T> extends BaseEntity<T> {
 	 */
 	@Override
 	public void preUpdate(){
+		/* 设置更新者，设置更新日期 */
 		User user = UserUtils.getUser();
 		if (StringUtils.isNotBlank(user.getId())){
 			this.updateBy = user;

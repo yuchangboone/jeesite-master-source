@@ -176,7 +176,8 @@ public class SQLHelper {
     }  
       
     /** 
-     * 去除hql的orderBy子句。 
+     * 去除hql的orderBy子句。
+     * 当
      * @param hql 
      * @return 
      */  

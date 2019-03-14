@@ -57,13 +57,17 @@ public class UserUtils {
 	 * @return 取不到返回null
 	 */
 	public static User get(String id){
+		/* 从缓存中获取用户 */
 		User user = (User)CacheUtils.get(USER_CACHE, USER_CACHE_ID_ + id);
+		/* 不存在时从数据库获取 */
 		if (user ==  null){
 			user = userDao.get(id);
 			if (user == null){
 				return null;
 			}
+			/* 设置用户角色 */
 			user.setRoleList(roleDao.findList(new Role(user)));
+			/* 根据用户名与登录名缓存用户 */
 			CacheUtils.put(USER_CACHE, USER_CACHE_ID_ + user.getId(), user);
 			CacheUtils.put(USER_CACHE, USER_CACHE_LOGIN_NAME_ + user.getLoginName(), user);
 		}
@@ -234,6 +238,7 @@ public class UserUtils {
 	 */
 	public static Principal getPrincipal(){
 		try{
+			/* 使用shiro获取当前的主体 */
 			Subject subject = SecurityUtils.getSubject();
 			Principal principal = (Principal)subject.getPrincipal();
 			if (principal != null){
